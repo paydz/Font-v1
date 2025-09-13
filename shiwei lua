@@ -1,0 +1,88 @@
+--====================================================
+-- ===============  SET PHÔNG CHỮ  ===================
+--====================================================
+-- Bạn có thể chọn 1 trong các font dưới đây
+-- Georgia     => Enum.Font.Fantasy
+-- Verdana     => Enum.Font.Roboto
+-- Courier New => Enum.Font.Code
+-- Helvetica   => Enum.Font.Gotham
+-- Arial       => Enum.Font.Arial
+-- Minecraft   => Enum.Font.Arcade
+
+local MAIN_FONT = Enum.Font.Gotham -- 👈 đổi font ở đây
+
+
+--====================================================
+-- ===============  AD SCRIPT  =======================
+--====================================================
+
+local AUTHOR_NAME   = "shi wei"
+local LOGO_ASSET_ID = 81821993306183
+
+local DISCORD_LINK  = "https://discord.gg/VRUeqKfDq2"
+local FACEBOOK_LINK = "https://www.facebook.com/share/1JBQN79NvP/"
+
+-- Load Fluent UI
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+repeat task.wait() until game:IsLoaded()
+
+-- Tạo cửa sổ
+local Window = Fluent:CreateWindow({
+    Title = "Thông Tin Script",
+    SubTitle = "by " .. AUTHOR_NAME,
+    TabWidth = 157,
+    Size = UDim2.fromOffset(450, 300),
+    Acrylic = true,
+    Theme = "Amethyst",
+    MinimizeKey = Enum.KeyCode.End
+})
+
+-- Tạo tab Thông tin
+local InfoTab = Window:AddTab({ Title = "Thông Tin" })
+
+-- Thêm logo
+local logo = Instance.new("ImageLabel")
+logo.Image = "rbxassetid://" .. LOGO_ASSET_ID
+logo.Size = UDim2.new(0, 100, 0, 100)
+logo.Position = UDim2.new(0.5, -50, 0, 20)
+logo.BackgroundTransparency = 1
+logo.Parent = InfoTab.Section
+
+-- Thêm TextLabel tên tác giả
+local text = Instance.new("TextLabel")
+text.Text = "Người tạo: " .. AUTHOR_NAME
+text.Font = MAIN_FONT
+text.TextSize = 20
+text.TextColor3 = Color3.fromRGB(255, 255, 255)
+text.Size = UDim2.new(1, -20, 0, 30)
+text.Position = UDim2.new(0, 10, 0, 130)
+text.BackgroundTransparency = 1
+text.Parent = InfoTab.Section
+
+-- Nút copy Discord
+InfoTab:AddButton({
+    Title = "Discord",
+    Description = "Copy link Discord",
+    Callback = function()
+        setclipboard(DISCORD_LINK)
+        Fluent:Notify({
+            Title = "Đã copy",
+            Content = "Link Discord đã được copy!",
+            Duration = 3
+        })
+    end
+})
+
+-- Nút copy Facebook
+InfoTab:AddButton({
+    Title = "Facebook",
+    Description = "Copy link Facebook",
+    Callback = function()
+        setclipboard(FACEBOOK_LINK)
+        Fluent:Notify({
+            Title = "Đã copy",
+            Content = "Link Facebook đã được copy!",
+            Duration = 3
+        })
+    end
+})
