@@ -1,121 +1,71 @@
---====================================================
--- ===============  SET PHÔNG CHỮ  ===================
---====================================================
-local AUTHOR_NAME   = "shi wei"
-local LOGO_ASSET_ID = 81821993306183
-local DISCORD_LINK  = "https://discord.gg/VRUeqKfDq2"
-local FACEBOOK_LINK = "https://www.facebook.com/share/1JBQN79NvP/"
-
--- Font mapping
-local Fonts = {
-    ["Georgia"]     = Enum.Font.Fantasy,
-    ["Verdana"]     = Enum.Font.Roboto,
-    ["Courier New"] = Enum.Font.Code,
-    ["Helvetica"]   = Enum.Font.Gotham,
-    ["Arial"]       = Enum.Font.Arial,
-    ["Minecraft"]   = Enum.Font.Arcade,
-}
-local CurrentFont = Enum.Font.Gotham
 
 --====================================================
--- ===============  AD SCRIPT  =======================
+--                 SHIWEI SCRIPT v1
 --====================================================
-repeat task.wait() until game:IsLoaded()
 
--- Load Fluent UI
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+-- Bạn có thể chọn 1 trong các font dưới đây:
+-- Georgia      => Enum.Font.Fantasy
+-- Verdana      => Enum.Font.Roboto
+-- Courier New  => Enum.Font.Code
+-- Helvetica    => Enum.Font.Gotham
+-- Arial        => Enum.Font.Arial
+-- Minecraft    => Enum.Font.Arcade
 
--- Tạo cửa sổ
-local Window = Fluent:CreateWindow({
-    Title = "Thông Tin Script",
-    SubTitle = "by " .. AUTHOR_NAME,
-    TabWidth = 157,
-    Size = UDim2.fromOffset(450, 300),
-    Acrylic = true,
-    Theme = "Amethyst",
-    MinimizeKey = Enum.KeyCode.End
-})
+local MAIN_FONT = Enum.Font.Gotham
 
---================ TAB SET PHÔNG CHỮ =================
-local FontTab = Window:AddTab({ Title = "SET PHÔNG CHỮ" })
-for name, font in pairs(Fonts) do
-    FontTab:AddButton({
-        Title = name,
-        Description = "Chọn font " .. name,
-        Callback = function()
-            CurrentFont = font
-            Fluent:Notify({
-                Title = "Đã đổi font",
-                Content = "Font hiện tại: " .. name,
-                Duration = 3
-            })
-        end
-    })
-end
+--====================================================
+--                 AD SCRIPT
+--====================================================
 
---================ TAB AD SCRIPT =====================
-local InfoTab = Window:AddTab({ Title = "AD SCRIPT" })
+local AUTHOR_NAME = "shi wei"
+local LOGO_ASSET_ID = "rbxassetid://81821993306183"
+
+-- Tạo ScreenGui
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "ShiweiGui"
+ScreenGui.Parent = game:GetService("CoreGui")
+
+-- Khung chính
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0, 300, 0, 200)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -100)
+Frame.BackgroundTransparency = 0.3
+Frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+Frame.Parent = ScreenGui
 
 -- Logo
-local logo = Instance.new("ImageLabel")
-logo.Image = "rbxassetid://" .. LOGO_ASSET_ID
-logo.Size = UDim2.new(0, 100, 0, 100)
-logo.Position = UDim2.new(0.5, -50, 0, 20)
-logo.BackgroundTransparency = 1
-logo.Parent = InfoTab.Section
+local Logo = Instance.new("ImageLabel")
+Logo.Size = UDim2.new(0, 100, 0, 100)
+Logo.Position = UDim2.new(0, 10, 0, 10)
+Logo.BackgroundTransparency = 1
+Logo.Image = LOGO_ASSET_ID
+Logo.Parent = Frame
 
 -- Tên tác giả
-local text = Instance.new("TextLabel")
-text.Text = "Người tạo: " .. AUTHOR_NAME
-text.Font = CurrentFont
-text.TextSize = 20
-text.TextColor3 = Color3.fromRGB(255, 255, 255)
-text.Size = UDim2.new(1, -20, 0, 30)
-text.Position = UDim2.new(0, 10, 0, 130)
-text.BackgroundTransparency = 1
-text.Parent = InfoTab.Section
+local Author = Instance.new("TextLabel")
+Author.Size = UDim2.new(0, 180, 0, 40)
+Author.Position = UDim2.new(0, 120, 0, 10)
+Author.BackgroundTransparency = 1
+Author.Font = MAIN_FONT
+Author.TextSize = 18
+Author.TextColor3 = Color3.fromRGB(255,255,255)
+Author.Text = "Author: "..AUTHOR_NAME
+Author.Parent = Frame
 
--- Nút copy Discord
-InfoTab:AddButton({
-    Title = "Discord",
-    Description = "Copy link Discord",
-    Callback = function()
-        setclipboard(DISCORD_LINK)
-        Fluent:Notify({
-            Title = "Đã copy",
-            Content = "Link Discord đã được copy!",
-            Duration = 3
-        })
-    end
-})
+-- Gợi ý đổi font (menu cơ bản)
+local FontList = {"Fantasy","Roboto","Code","Gotham","Arial","Arcade"}
 
--- Nút copy Facebook
-InfoTab:AddButton({
-    Title = "Facebook",
-    Description = "Copy link Facebook",
-    Callback = function()
-        setclipboard(FACEBOOK_LINK)
-        Fluent:Notify({
-            Title = "Đã copy",
-            Content = "Link Facebook đã được copy!",
-            Duration = 3
-        })
-    end
-})
+for i, fontName in ipairs(FontList) do
+    local Btn = Instance.new("TextButton")
+    Btn.Size = UDim2.new(0, 120, 0, 25)
+    Btn.Position = UDim2.new(0, 120, 0, 40 + (i-1)*30)
+    Btn.BackgroundColor3 = Color3.fromRGB(50,50,50)
+    Btn.TextColor3 = Color3.fromRGB(255,255,255)
+    Btn.Font = Enum.Font[fontName]
+    Btn.Text = fontName
+    Btn.Parent = Frame
 
---================ LOGO BẬT/TẮT GUI ==================
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = game.CoreGui
-
-local ToggleButton = Instance.new("ImageButton")
-ToggleButton.Size = UDim2.new(0, 50, 0, 50)
-ToggleButton.Position = UDim2.new(1, -60, 1, -60) -- góc dưới phải
-ToggleButton.BackgroundTransparency = 1
-ToggleButton.Image = "rbxassetid://" .. LOGO_ASSET_ID
-ToggleButton.Parent = ScreenGui
-
-local GuiVisible = true
-ToggleButton.MouseButton1Click:Connect(function()
-    GuiVisible = not GuiVisible
-    Window.Window.Visible = GuiVisible
-end)
+    Btn.MouseButton1Click:Connect(function()
+        Author.Font = Enum.Font[fontName]
+    end)
+end
